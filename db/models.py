@@ -15,7 +15,8 @@ class Result(db.Model):
     meta = db.Column(JSON, nullable=True)
     created_at = db.Column(DateTime, default=datetime.datetime.utcnow)
 
-    def __init__(self, url, result_all, result_no_stop_words, created_at=None, meta=None):
+    def __init__(self, url, result_all, result_no_stop_words, created_at=None,
+                 meta=None):
         self.url = url
         self.result_all = result_all
         self.result_no_stop_words = result_no_stop_words
