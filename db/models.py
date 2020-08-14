@@ -27,3 +27,20 @@ class Result(db.Model):
 
     def __repr__(self):
         return '<id {}>'.format(self.id)
+
+
+class Input(db.Model):
+    __tablename__ = 'inputs'
+
+    id = db.Column(db.Integer, primary_key=True)
+    meta = db.Column(JSON, nullable=True)
+    created_at = db.Column(DateTime, default=datetime.datetime.utcnow)
+
+    def __init__(self, created_at=None, meta=None):
+        if meta:
+            self.meta = meta
+        if created_at:
+            self.created_at = created_at
+
+    def __repr__(self):
+        return '<id {}>'.format(self.id)
