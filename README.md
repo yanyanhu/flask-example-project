@@ -17,6 +17,11 @@ $ pip install -r requirements.txt
 $ python application.py
 ```
 
+## Test
+```
+python -m pytest -v
+```
+
 ## Run code style check
 ```
 $ flake8 ./
