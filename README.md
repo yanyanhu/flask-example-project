@@ -14,7 +14,7 @@ $ pip install -r requirements.txt
 
 ## Run service
 ```
-$ python app.py
+$ python application.py
 ```
 
 ## Run code style check
@@ -30,3 +30,4 @@ $ python -m pip freeze > requirements.txt
 
 ## Reference
 [1] https://realpython.com/flask-by-example-part-1-project-setup/
+[2] https://flask.palletsprojects.com/en/1.1.x/tutorial/factory/
