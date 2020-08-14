@@ -1,6 +1,7 @@
 import os
 
 from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 
 
 def create_app(test_config=None):
@@ -8,12 +9,15 @@ def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
         SECRET_KEY='dev',
-        DATABASE=os.path.join(app.instance_path, 'myapp.sqlite'),
+        SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
     )
+
+    # config database
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     if test_config is None:
         # load the instance config, if it exists, when not testing
-        app.config.from_pyfile('config.py', silent=True)
+        app.config.from_pyfile('setup.cfg', silent=True)
     else:
         # load the test config if passed in
         app.config.from_mapping(test_config)
@@ -27,10 +31,13 @@ def create_app(test_config=None):
     # a simple page that says hello
     @app.route('/hello')
     def hello():
-        print(os.environ['APP_SETTINGS'])
+        print(app.config['SQLALCHEMY_DATABASE_URI'])
         return 'Hello, World!'
 
     return app
 
 
 app = create_app()
+db = SQLAlchemy(app)
+
+from db.models import Result
