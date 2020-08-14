@@ -3,8 +3,6 @@ import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
-from db.models import Result
-
 
 def create_app(test_config=None):
     # create and configure the app
@@ -30,14 +28,24 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    # a simple page that says hello
-    @app.route('/hello')
-    def hello():
-        print(app.config['SQLALCHEMY_DATABASE_URI'])
-        return 'Hello, World!'
-
     return app
 
 
 app = create_app()
-db = SQLAlchemy(app)
+database = SQLAlchemy(app)
+
+
+from db.models import Result
+
+
+# A simple page that says hello
+@app.route('/hello')
+def hello():
+    print(app.config['SQLALCHEMY_DATABASE_URI'])
+    return 'Hello, World!'
+
+
+# A simple page that says hello to given name
+@app.route('/<name>')
+def hello_name(name):
+    return "Hello {}!".format(name)

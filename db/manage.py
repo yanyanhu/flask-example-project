@@ -1,7 +1,7 @@
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
 
-from myapp import app, db
+from myapp import app, database as db
 
 
 print(app.config['SQLALCHEMY_DATABASE_URI'])
