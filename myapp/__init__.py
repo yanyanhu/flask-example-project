@@ -41,6 +41,10 @@ database = SQLAlchemy(app)
 
 from db.models import Result  # noqa: E401,E402,F401
 
+# Register blueprints
+from . import auth  # noqa: E401,E402,F401
+app.register_blueprint(auth.bp)
+
 
 # A simple page that says hello
 @app.route('/hello')
