@@ -1,0 +1,4 @@
+# config.py
+
+DEBUG = True
+SQLALCHEMY_DATABASE_URI = "TEST_DB_URL"
