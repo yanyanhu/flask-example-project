@@ -1,5 +1,5 @@
 import datetime
-from sqlalchemy import DateTime
+from sqlalchemy import DateTime, String
 from sqlalchemy.dialects.postgresql import JSON
 
 from myapp import database as db
@@ -39,6 +39,24 @@ class Input(db.Model):
     def __init__(self, created_at=None, meta=None):
         if meta:
             self.meta = meta
+        if created_at:
+            self.created_at = created_at
+
+    def __repr__(self):
+        return '<id {}>'.format(self.id)
+
+
+class User(db.Model):
+    __tablename__ = 'users'
+
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(String, nullable=False)
+    password = db.Column(String, nullable=False)
+    created_at = db.Column(DateTime, default=datetime.datetime.utcnow)
+
+    def __init__(self, username, password, created_at=None):
+        self.username = username
+        self.password = password
         if created_at:
             self.created_at = created_at
 
