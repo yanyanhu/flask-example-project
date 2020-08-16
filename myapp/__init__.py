@@ -42,16 +42,6 @@ database = SQLAlchemy(app)
 
 # Register blueprints
 from . import auth  # noqa: E401,E402,F401
+from . import hello  # noqa: E401,E402,F401
 app.register_blueprint(auth.bp)
-
-
-# A simple page that says hello
-@app.route('/hello')
-def hello():
-    return 'Hello, World!'
-
-
-# A simple page that says hello to given name
-@app.route('/<name>')
-def hello_name(name):
-    return "Hello {}!".format(name)
+app.register_blueprint(hello.bp)
