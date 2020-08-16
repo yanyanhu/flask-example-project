@@ -39,7 +39,7 @@ app = create_app()
 database = SQLAlchemy(app)
 
 
-from db.models import Result  # noqa: E401,E402
+from db.models import Result  # noqa: E401,E402,F401
 
 
 # A simple page that says hello
