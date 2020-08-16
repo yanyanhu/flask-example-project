@@ -29,7 +29,7 @@ def register():
         if user is not None:
             # User has been registered
             error = 'User {} has already been registered.'.format(username)
-            app.logger.debug(error)
+            app.logger.warning(error)
         else:
             # Insert new user record
             app.logger.debug('Insert new user record for %s', username)
