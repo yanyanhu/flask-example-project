@@ -26,8 +26,6 @@ def create_app(test_config=None):
         app.config.from_mapping(
             SQLALCHEMY_DATABASE_URI=os.environ['DATABASE_URL']
         )
-        app.logger.debug('Database url to use: %s',
-                         app.config['SQLALCHEMY_DATABASE_URI'])
 
     # ensure the instance folder exists
     try:
