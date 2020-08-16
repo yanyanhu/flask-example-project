@@ -15,8 +15,7 @@ bp = Blueprint('auth', __name__, url_prefix='/auth')
 @bp.route('/register', methods=('GET', 'POST'))
 def register():
     if request.method == 'POST':
-        app.logger.debug('Receive auth reg request: %s',
-                         str(request.json))
+        app.logger.debug('Receive auth reg request')
         username = request.json['username']
         password = request.json['password']
 
@@ -29,7 +28,7 @@ def register():
         user = User.query.filter_by(username=username).first()
         if user is not None:
             # User has been registered
-            error = 'User {} is already registered.'.format(username)
+            error = 'User {} has already been registered.'.format(username)
             app.logger.debug(error)
         else:
             # Insert new user record
@@ -48,5 +47,7 @@ def register():
                 app.logger.warning(error)
 
         flash(error)
+        if error:
+            return error
 
-    return 'User registration succeeded!'
+    return 'User {} registration succeeded!'.format(username)
