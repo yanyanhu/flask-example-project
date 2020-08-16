@@ -7,6 +7,9 @@ from flask_sqlalchemy import SQLAlchemy
 def create_app(test_config=None):
     # Create the app
     app = Flask(__name__, instance_relative_config=False)
+    app.config.from_mapping(
+        SECRET_KEY='dev'
+    )
 
     # Config database
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
