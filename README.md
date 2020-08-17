@@ -29,20 +29,25 @@ $ pip install -e .
 $ python application.py
 ```
 
-## Test
-```
-python -m pytest -v
-```
-
 ## Run code style check
 ```
 $ flake8 ./
 ```
 
-## Install flask manually
+## Test
+Configure the following environment variables:
 ```
-$ python -m pip install Flask
-$ python -m pip freeze > requirements.txt
+$ export DATABASE_URL="sqlite:////tmp/test.db"
+$ export TESTING=True
+```
+Reinit test database:
+```
+$ rm /tmp/test.db
+$ python db/manage.py db upgrade
+```
+Run test cases:
+```
+$ python -m pytest -v
 ```
 
 ## Update data model
@@ -59,6 +64,14 @@ In case to purge the db migration history, remove the folder of `migrations` and
 python db/manage.py db init
 ```
 Warning: all data model update history will be removed by performing the above operation.
+
+
+## Install flask manually
+```
+$ python -m pip install Flask
+$ python -m pip freeze > requirements.txt
+```
+
 
 ## Reference
 [1] https://realpython.com/flask-by-example-part-1-project-setup/
