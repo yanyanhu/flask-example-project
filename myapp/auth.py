@@ -58,6 +58,46 @@ def register():
         return 'User %s registration succeeded!' % username
 
 
+@bp.route('/update', methods=['POST'])
+def update():
+    if request.method == 'POST':
+        app.logger.debug('Receive auth/update request')
+        username = request.json['username']
+        password = request.json['password']
+
+        error = None
+        if not username:
+            error = 'Username is required.'
+        elif not password:
+            error = 'New password is required.'
+
+        # Check the existence of the user
+        if not error:
+            user = User.query.filter_by(username=username).first()
+            if not user:
+                # User has not been registered
+                error = 'User %s has not been registered.' % username
+            else:
+                # Update user record
+                app.logger.debug('Update user record for %s', username)
+                try:
+                    user.password = generate_password_hash(password)
+                    db.session.commit()
+                except Exception as error:
+                    detail = str(error.orig) + " for parameters" + \
+                        str(error.params)
+                    error = 'Failed to update user record to DB: ' + detail
+
+        if error:
+            app.logger.warning(error)
+            # Note: this is not required if the req is not from a browser
+            flash(error)
+
+            return error
+
+        return 'User %s update succeeded!' % username
+
+
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
