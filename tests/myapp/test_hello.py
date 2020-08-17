@@ -1,17 +1,7 @@
-import pytest
-
-import myapp
+from tests.myapp.client import client  # noqa: F401
 
 
-@pytest.fixture
-def client():
-    myapp.app.config['TESTING'] = True
-
-    with myapp.app.test_client() as client:
-        yield client
-
-
-def test_root_notfound(client):
+def test_root_notfound(client):  # noqa: F811
     """Test root url / which is not found."""
 
     rv = client.get('/')
@@ -19,7 +9,7 @@ def test_root_notfound(client):
     assert '404 Not Found' in str(rv.data)
 
 
-def test_hello_without_login(client):
+def test_hello_without_login(client):  # noqa: F811
     """Test /hello without login."""
 
     rv = client.get('/hello')

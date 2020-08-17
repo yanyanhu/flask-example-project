@@ -4,7 +4,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
 
-def create_app(test_config=None):
+def create_app():
     # Create the app
     app = Flask(__name__, instance_relative_config=False)
     app.config.from_mapping(
@@ -14,12 +14,13 @@ def create_app(test_config=None):
     # Config database
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-    if test_config is None:
+    testing = os.environ['TESTING'] if 'TESTING' in os.environ else False
+    if not testing:
         # Load the default config from config.py when not testing
         app.config.from_pyfile('config.py', silent=False)
     else:
-        # Load the test config if passed in
-        app.config.from_mapping(test_config)
+        # Load the test config if in testing mode
+        app.config.from_pyfile('config_test.py', silent=False)
 
     # Override the config options provided as environment variables
     if os.environ['DATABASE_URL']:
