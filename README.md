@@ -45,20 +45,56 @@ $ python -m pip install Flask
 $ python -m pip freeze > requirements.txt
 ```
 
-## Update data model
-To update data model, first edit the model definition(e.g. db/models.py). Then perform the migrate command to generate migration script:
+## Manage data model and upgrade using alembic
+### Cleanup existing data model history
 ```
-python db/manage.py db migrate
+$ rm -rf alembic
+$ rm -rf alembic.ini
 ```
-Then perform the upgrade command to upgrade target database. Before doing that, config the environment variable `DATABASE_URL` to point to the target database.
+Drop existing tables and history alembic versions in the target DB if need, e.g.
 ```
-python db/manage.py db upgrade
+DROP TABLE table1
+DROP TABLE table2
+DROP TABLE alembic_version
 ```
-In case to purge the db migration history, remove the folder of `migrations` and rerun the following command:
+Warning: all data model update history will be lost by performing the above operation. So please just do in case you want to restart from scratch.
+
+### Init alembic history
 ```
-python db/manage.py db init
+$ alembic init alembic
 ```
-Warning: all data model update history will be removed by performing the above operation.
+Edit the alembic.ini file to fill in correct `sqlalchemy.url` before continue.
+
+### Generate baseline script
+Generate baseline script
+```
+$ alembic revision -m "baseline"
+```
+
+### Init alembic history in the database
+```
+$ alembic upgrade head
+```
+This will generate `alembic_version` table in the target DB for keeping the datamodel updating history.
+
+### Define data models
+Define all required data models in the definition file, e.g. `db/models.py`. Then edit the `alembic/env.py` to  let alembic know where is the data models' metadata, e.g. adding the following line:
+```
+from db import models
+...
+...
+target_metadata = models.Base.metadata
+```
+
+Then auto-generate the migration script uses the `--autogenerate` flag to the alembic revision command.
+```
+alembic revision --autogenerate -m "add init talbles"
+```
+
+### Upgrade target database to apply the data model changes
+```
+alembic upgrade head
+```
 
 ## Reference
 [1] https://realpython.com/flask-by-example-part-1-project-setup/
