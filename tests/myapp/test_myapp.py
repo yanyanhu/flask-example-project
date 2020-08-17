@@ -19,9 +19,8 @@ def test_root_notfound(client):
     assert '404 Not Found' in str(rv.data)
 
 
-def test_hello(client):
-    """Test /hello."""
+def test_hello_without_login(client):
+    """Test /hello without login."""
 
     rv = client.get('/hello')
-    assert rv.status_code == 200
-    assert 'Hello, World!' in str(rv.data)
+    assert rv.status_code == 404
