@@ -1,4 +1,4 @@
-from tests.myapp.client import client  # noqa: F401
+from tests.myapp.client import client_withdb as client  # noqa: F401
 
 
 def test_register(client):  # noqa: F811

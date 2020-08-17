@@ -23,7 +23,7 @@ def create_app():
         app.config.from_pyfile('config_test.py', silent=False)
 
     # Override the config options provided as environment variables
-    if os.environ['DATABASE_URL']:
+    if 'DATABASE_URL' in os.environ:
         app.config.from_mapping(
             SQLALCHEMY_DATABASE_URI=os.environ['DATABASE_URL']
         )

@@ -29,23 +29,30 @@ $ pip install -e .
 $ python application.py
 ```
 
-## Run code style check
-```
-$ flake8 ./
-```
-
-## Test
+## Run service in testing environment
 Configure the following environment variables:
 ```
 $ export DATABASE_URL="sqlite:////tmp/test.db"
 $ export TESTING=True
 ```
-Reinit test database:
+
+(Re)init test database:
 ```
 $ rm /tmp/test.db
 $ python db/manage.py db upgrade
 ```
-Run test cases:
+
+Run service:
+```
+$ python application.py
+```
+
+## Run code style check
+```
+$ flake8 ./
+```
+
+## Run test cases
 ```
 $ python -m pytest -v
 ```
