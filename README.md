@@ -46,12 +46,12 @@ $ python -m pip freeze > requirements.txt
 ```
 
 ## Manage data model and upgrade using alembic
-### Cleanup existing data model history
+### Cleanup existing data model history(optional)
 ```
 $ rm -rf alembic
 $ rm -rf alembic.ini
 ```
-Drop existing tables and history alembic versions in the target DB if need, e.g.
+Drop existing tables and history alembic versions in the target DB if need, e.g.(optional)
 ```
 DROP TABLE table1
 DROP TABLE table2
@@ -88,12 +88,24 @@ target_metadata = models.Base.metadata
 
 Then auto-generate the migration script uses the `--autogenerate` flag to the alembic revision command.
 ```
-alembic revision --autogenerate -m "add init talbles"
+$ alembic revision --autogenerate -m "add init talbles"
 ```
 
 ### Upgrade target database to apply the data model changes
 ```
-alembic upgrade head
+$ alembic upgrade head
+```
+
+### Update data model and upgrade target DB
+Edit data model definition, e.g. `db/models.py`
+
+Auto-generate the migration script:
+```
+$ alembic revision --autogenerate -m "update talbles"
+```
+Upgrade target DB to apply data model changes:
+```
+$ alembic upgrade head
 ```
 
 ## Reference
