@@ -6,7 +6,7 @@ from flask import (
 
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from db.database import db_session
+from db import db_session
 from db.models import User  # noqa: E401,E402,F401
 from myapp import app
 

@@ -2,7 +2,7 @@ import os
 
 from flask import Flask
 
-from db.database import db_session
+from db import db_session
 
 
 def create_app(test_config=None):

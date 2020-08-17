@@ -2,7 +2,7 @@ import datetime
 from sqlalchemy import Column, DateTime, Integer, String
 from sqlalchemy.dialects.postgresql import JSON
 
-from db.database import Base
+from db import Base
 
 
 class Result(Base):
