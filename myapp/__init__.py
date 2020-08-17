@@ -1,7 +1,8 @@
 import os
 
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
+
+from db.database import db_session
 
 
 def create_app(test_config=None):
@@ -37,7 +38,11 @@ def create_app(test_config=None):
 
 
 app = create_app()
-database = SQLAlchemy(app)
+
+
+@app.teardown_appcontext
+def shutdown_session(exception=None):
+    db_session.remove()
 
 
 # Register blueprints

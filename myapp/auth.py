@@ -6,9 +6,9 @@ from flask import (
 
 from werkzeug.security import check_password_hash, generate_password_hash
 
+from db.database import db_session
 from db.models import User  # noqa: E401,E402,F401
 from myapp import app
-from myapp import database as db
 
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
@@ -41,8 +41,8 @@ def register():
                         username=username,
                         password=generate_password_hash(password),
                     )
-                    db.session.add(user)
-                    db.session.commit()
+                    db_session.add(user)
+                    db_session.commit()
                 except Exception as error:
                     detail = str(error.orig) + " for parameters" + \
                         str(error.params)
@@ -82,7 +82,7 @@ def update():
                 app.logger.debug('Update user record for %s', username)
                 try:
                     user.password = generate_password_hash(password)
-                    db.session.commit()
+                    db_session.commit()
                 except Exception as error:
                     detail = str(error.orig) + " for parameters" + \
                         str(error.params)
