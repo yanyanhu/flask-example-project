@@ -110,10 +110,10 @@ def login():
         user = User.query.filter_by(username=username).first()
         if user is None:
             # User does not exist
-            error = 'Incorrect username.'
+            error = 'Invalid username.'
         elif not check_password_hash(user.password, password):
             # User exists, but password check failed
-            error = 'Incorrect password.'
+            error = 'Invalid password.'
 
         if error:
             app.logger.warning(error)
