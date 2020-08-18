@@ -5,6 +5,8 @@ from flask_sqlalchemy import SQLAlchemy
 
 
 def create_app():
+    """Create a flask app"""
+
     # Create the app
     app = Flask(__name__, instance_relative_config=False)
     app.config.from_mapping(
@@ -37,12 +39,19 @@ def create_app():
     return app
 
 
+# Creatre the app
 app = create_app()
+
+# Create the database
 database = SQLAlchemy(app)
 
 
 # Register blueprints
 from . import auth  # noqa: E401,E402,F401
 from . import hello  # noqa: E401,E402,F401
+
+# Blueprint for authentication APIs
 app.register_blueprint(auth.bp)
+
+# Blueprint for hello test APIs
 app.register_blueprint(hello.bp)

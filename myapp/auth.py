@@ -16,6 +16,18 @@ bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 @bp.route('/register', methods=['POST'])
 def register():
+    """Register a new user
+
+    This API provides interface for registering a new user.
+        ------
+        Request body:
+            {
+                "username": "name",
+                "password": "pass"
+            }
+        Response code: 200
+    """
+
     if request.method == 'POST':
         app.logger.debug('Receive auth/reg request')
         username = request.json['username']
@@ -60,6 +72,19 @@ def register():
 
 @bp.route('/update', methods=['POST'])
 def update():
+    """Update the password of an registered user
+
+    This API provides interface for updating the password
+    of an existing user.
+        ------
+        Request body:
+            {
+                "username": "name",
+                "password": "pass"
+            }
+        Response code: 200
+    """
+
     if request.method == 'POST':
         app.logger.debug('Receive auth/update request')
         username = request.json['username']
@@ -100,6 +125,18 @@ def update():
 
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
+    """Login as a user
+
+    This API provides interface for user login.
+        ------
+        Request body:
+            {
+                "username": "name",
+                "password": "pass"
+            }
+        Response code: 200
+    """
+
     if request.method == 'POST':
         app.logger.debug('Receive auth/login request')
         username = request.form["username"]
@@ -131,12 +168,19 @@ def login():
 
 @bp.route('/logout')
 def logout():
+    """Logout
+
+    This API provides interface for user logout.
+    """
+
     session.clear()
     return 'User log out successfully.'
 
 
 @bp.before_app_request
 def load_logged_in_user():
+    """Load user in current session"""
+
     user_id = session.get('user_id')
 
     if user_id is None:
@@ -146,6 +190,8 @@ def load_logged_in_user():
 
 
 def login_required(view):
+    """Wrapper to check user login"""
+
     @functools.wraps(view)
     def wrapped_view(**kwargs):
         if g.user is None:
